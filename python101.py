@@ -73,3 +73,35 @@ print 2**3
 print 10**87
 print "-" * 20
 print "Ron " * 20
+
+
+
+
+# Input
+# Python 2 = raw_input
+# Python 3 = input
+name = raw_input ("what is yout name?")
+print name 
+print type(name)
+
+# conditionals
+# a single = sign, means set the left to whatever is on the right
+# two = signs, means compare what's on the left, to whatever is on the right
+print 2 ==2
+print 2 ==1
+print 2 =="2"
+secret_number = 5;
+if (secret_number ==3):
+    print "Secret number is 5";
+else:
+    print "Secret number is not 3"
+
+game_on = True
+i = 0;
+while(game_on = true)
+    i+ = 1
+    if(i == 10):
+        game_on = false
+    else:
+        print "Game on!!!"
+
