@@ -1,0 +1,80 @@
+    1  whoami
+    2  pwd
+    3  pwd
+    4  pwd
+    5  pwd
+    6  pwd
+    7  pwd
+    8  pwd
+    9  pwd
+   10  pwd
+   11  pwd
+   12  pwd
+   13  pwd
+   14  pwd
+   15  pwd
+   16  pwd
+   17  pwd
+   18  pwd
+   19  pwd
+   20  pwd
+   21  pwd
+   22  pwd
+   23  cd ~
+   24  pwd
+   25  cd ~
+   26  PWD
+   27  pwd
+   28  cd ~
+   29  cls
+   30  pwd
+   31  cd ~
+   32  mkdir temp
+   33  mkdir temp/stuff
+   34  mkdir temp/stuff/things
+   35  mkdir -p temp/stuff/things/orange/apple/pear/grape
+   36  pwd
+   37  cd temp/stuff/things/orange/apple/pear/grape/
+   38  pwd
+   39  cd ~
+   40  pwd
+   41  cd ..
+   42  pwd
+   43  cd..
+   44  cd ..
+   45  pwd
+   46  ls
+   47  cd users
+   48  pwd
+   49  cd temp
+   50  ls
+   51  cd ronfletcher1/temp/stuff/things/orange/apple/pear/grape/
+   52  pwd
+   53  cd ~
+   54  ls
+   55  pwd
+   56  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+   58  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+   59  ver
+   60  ls -la
+   61  clear
+   62  ls
+   63  pwd
+   64  cd development
+   65  ls
+   66  cd 2018112
+   67  ls
+   68  cd unit1
+   69  git commit
+   70  history > history.txt
+   71  history.txt
+   72  cd ~
+   73  ls
+   74  cd Development
+   75  ls
+   76  pwd
+   77  cd 2
+   78  cd 2018112
+   79  cd unit1
+   80  git init
+   81  history > history.txt
