@@ -1,4 +1,5 @@
-first_ten = [10, 10, 6, 4, 5, 9, 7, 3, 9, 2, 6]
-for i in range (0,len(first_ten)):
-    print first_ten[i]
+for i in range (0,11):
+    # print i - always can print to check the status
+    if i % 2 == 1:
+        print i
     
