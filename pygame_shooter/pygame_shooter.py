@@ -6,10 +6,19 @@ from hero2 import Hero # this is a separate file that is the Hero Class and
 # contains all Hero defined functions (methods/attributes); my file is hero2.py not same as Rob's example
 from BadGuy import BadGuy # this is a separate file that is the BadGuy Class and 
 # contains all BadGuy defined functions (methods/attributes)
+from the_claw import the_claw # this is a separate file that is the the_claw Class and 
+# contains all the_claw defined functions (methods/attributes) this is # 2 on the exercises
 from Arrow import Arrow # this is a separate file that is the Arrow Class and 
 # contains all Arrow defined functions (methods/attributes)
+from Button import Start_Button
+# we want to have pygame "groups"
+# ** from pygame.sprite import Group new line 26
+# make a group for out arrows to live in
+# a group is a pygame thing. Its like a list,
+# but with cool stuff too
+# ** arrows = Group # duplicate below on line #56 **
 
-# importing Classes from other fils allows you to "call" the class and 
+# importing Classes from other files allows you to "call" the class and 
 # utilize it's defined functions (methods/attributes) - they are all called in # 4 below 
 # (currently lines 35, 38, 39, 42; line 39 the bad_guy call needs clarification)
 
@@ -34,19 +43,23 @@ pygame.display.set_caption("Dynamic Deuce") # this sets the name of the screen a
 
 theHero = Hero() # this has called the Hero class object so now the code has access to all the Hero functions
 
-# # this is out BadGuy object
+# # this is our BadGuy object
 # BadGuy = BadGuy() 
 # # this has called the BadGuy class object so now the code has access to all the BadGuy functions
 # bad_guy = BadGuy() 
 bad_guy = BadGuy()
+# make a bad_guys group
 bad_guys = Group()
 # need clarification, but I think that we created a bad_guy variable that 
 # accesses all BadGuy functions; let's see where it's called
+# add the bad_guy to the bad_guys Group
 bad_guys.add(bad_guy) # added after I left class and included in push (get clarification)
+start_button = Start_Button(pygame_screen)
 
-arrows = Group() # a list to hold our arrows (quiver); 
+# make a group for our arrows to live in
+arrows = Group() 
+# A group is a special pygame "list" for Sprites from line 26 (I think...FIND OUT!!!)
 # arrows = []
-# A group is a special pygame "list" for Sprites from line 17 (I think...FIND OUT!!!)
 
 
 # ======VARIABLES FOR OUR GAME======
@@ -56,7 +69,11 @@ background_image = pygame.image.load('background.png')
 hero_image = pygame.image.load('hero.png')
 goblin_image = pygame.image.load('goblin.png')
 monster_image = pygame.image.load('monster.png')
-arrow_image = pygame.image.load('arrow.png')
+# ** arrow_image = pygame.image.load('arrow.png') - commented out and updated
+# on arrow.py
+# the_claw = pygame.image.load('arrow.png')
+tick = 0 # clarification needed
+direction = 1 # clarification needed
 
 # Below is code previously writtent that is now contained in 
 # one of the classes (it's a shortcut; find out what it was and the shortcut)
@@ -65,13 +82,15 @@ arrow_image = pygame.image.load('arrow.png')
 #     'y': 0
 # }
 
-# Looks like a music variable  was added and called after I left class and included in push
-bg_music = pygame.mixer.Sound('bg.wav')
-bg_music.play()
+# # Looks like a music variable  was added and called 
+# after I left class and included in push (code below replaced with line 144 - 145)
+# bg_music = pygame.mixer.Sound('bg.wav')
+# bg_music.play()
 
 # ======MAIN GAME LOOP======
 
 game_on = True
+game_start = False
 
 # the loop will run as long as our bool is True
 
@@ -79,6 +98,10 @@ while game_on:
     # we are in the game loop from here on out!
     # 5. Listen for events and quit if the user clicks the x (on the panel; closing the window)
     # the events are already defined in pygame
+    tick += 1
+    if (tick % 90 == 0):
+        bad_guys.add(BadGuy())
+    # ***adds a new bad guy
     # =====EVENT CHECKER=====
     
     for event in pygame.event.get():
@@ -88,7 +111,7 @@ while game_on:
             game_on = False
         elif event.type == pygame.KEYDOWN:
             # the user pressed a key!! (duh, key down)
-            print event.key # the event key commands are the arrows on the keyboard 
+            print (event.key) # the event key commands are the arrows on the keyboard 
             # the numbers represent the keystroke up, down, left, right
             if event.key == 275:
                 # the user pressed the right arrow!!! move our dude right
@@ -112,17 +135,23 @@ while game_on:
             elif event.key == 32:
                     new_arrow = Arrow(theHero)
                     arrows.add(new_arrow)
-            elif event.type == pygame.KEYUP:
-            # the user RELEASED a key (duh the key going up after it was pressed down KEYDOWN)
-                if event.key == 275:
-                    theHero.should_move("right",False)
-                elif event.key == 276:
-                    theHero.should_move("left",False)
-                if event.key == 273:
-                    theHero.should_move("up",False)
-                elif event.key == 274:
-                    theHero.shouldshould_move("down",False)
-                
+        elif event.type == pygame.KEYUP:
+        # the user RELEASED a key (duh the key going up after it was pressed down KEYDOWN)
+            if event.key == 275:
+                theHero.should_move("right",False)
+            elif event.key == 276:
+                theHero.should_move("left",False)
+            if event.key == 273:
+                theHero.should_move("up",False)
+            elif event.key == 274:
+                theHero.should_move("down",False)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            print (mouse_x,mouse_y)
+            if start_button.rect.collidepoint(mouse_x, mouse_y):
+                game_start = True
+                bg_music = pygame.mixer.Sound('faf.wav')
+                bg_music.play()
 
                     # Space Bar... FIRE!!!!
                 # elif event.key == 32:
@@ -141,22 +170,61 @@ while game_on:
     # 2. Where to draw it
     # in the docs... SURFACE = our "pygame_screen"
     pygame_screen.blit(background_image,[0,0])
-    # Draw the hero
-    theHero.draw_me()
-    pygame_screen.blit(hero_image,[theHero.x,theHero.y])
+    
+    #code added from Robs push
+    if game_start == True:
+        theHero.draw_me(512,480)
+        for bad_guy in bad_guys:
+            bad_guy.update_me(theHero)
+            pygame_screen.blit(monster_image,[bad_guy.x,bad_guy.y])
 
-    # draw the arrows
-    for arrow in arrows:
-        arrow.update_me()
-        pygame_screen.blit(arrow_image,[arrow.x,arrow.y])
+        for arrow in arrows:
+            arrow.update_me()
+            pygame_screen.blit(arrow.img,[arrow.x,arrow.y])
+        pygame_screen.blit(hero_image,[theHero.x,theHero.y])
 
-    arrow_hit = groupcollide(arrows,bad_guys,True,True)
+        arrow_hit = groupcollide(arrows,bad_guys,True,True)
+        # print arrow_hit
+        if arrow_hit:
+            bad_guys.add(BadGuy())
 
-    # draw the bad guys
-    for bad_guy in bad_guys:
-        bad_guy.update_me(theHero)
-        pygame_screen.blit(monster_image,[bad_guy.x,bad_guy.y])
+    if game_start == False:
+        start_button.setup_message()
+        start_button.draw_button()
+    
     pygame.display.flip()
+    # # insertion of code to be moved
+    # #if game_start == True:
+    # #theHero.draw_me(512,480)
+    # pygame_screen.blit(hero_image,[theHero.x,theHero.y])
+
+    # # draw the arrows
+    # for arrow in arrows:
+    #     arrow.update_me()
+    #     pygame_screen.blit(arrow_image,[arrow.x,arrow.y])
+
+    # arrow_hit = groupcollide(arrows,bad_guys,True,True)
+
+    # # print arrow_hit
+    # if arrow_hit:
+    #     bad_guys.add(BadGuy())
+    # # bottom of copy to be indented
+    # if game_start == False:
+    #     start_button.setup_message()
+    #     start_button.draw_button()
+
+    # # draw the bad guys
+    # for bad_guy in bad_guys:
+    #     bad_guy.update_me(theHero)
+    #     pygame_screen.blit(monster_image,[bad_guy.x,bad_guy.y])
+    # pygame.display.flip()
+
+    # Adding another character
+    # # draw the the_claw
+    # for bad_guy in bad_guys:
+    #     bad_guy.update_me(theHero)
+    #     pygame_screen.blit(monster_image,[bad_guy.x,bad_guy.y])
+    # pygame.display.flip()
     
     #=====MY PREVIOUS CODE modified above after I left class)
     # pygame_screen.blit(background_image, [0,0])
